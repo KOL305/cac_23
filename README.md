@@ -10,8 +10,6 @@ The app contains three pages: Dashboard, Optimization, and Comparison
 
 # How to deploy application
 
-# Task-Manager-With-Slimes
-
 Pre-requisites:
 - Git
 - Python 3.x
