@@ -30,7 +30,7 @@ How to set up .env (in code editor):
 - Copy and paste the following into .env:
 
 OPENAI_API_KEY = <<add your OpenAI GPT API Key here>>
-In order to view the GPT Recommendations, you will need your own OpenAI GPT API Key
+* In order to view the GPT Recommendations, you will need your own OpenAI GPT API Key
 * From platform.openai.com: "First, create an OpenAI account or sign in. Next, navigate to the API key page and "Create new secret key", optionally naming the key. Make sure to save this somewhere safe and do not share it with anyone."
 
 How to install requirements:
