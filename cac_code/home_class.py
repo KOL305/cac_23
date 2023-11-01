@@ -2,7 +2,6 @@ from datetime import datetime as dt
 from datetime import timedelta
 import pandas as pd
 import lightgbm as lgb
-#from battery_var import battery
 
 class House:
     use_df=[]
@@ -14,8 +13,6 @@ class House:
         self.gen_df=pd.read_csv('cac_code/csv_data/gen_sol.csv')
         self.use_model=lgb.Booster(model_file='cac_code/ml_models/use_HO_model.txt')
         self.gen_model=lgb.Booster(model_file='cac_code/ml_models/gen_sol_model.txt')
-    #def battery(self):
-       # return self.battery
     def date_time(self):
         return self.datetime
     def time_stamp(self):
@@ -36,7 +33,6 @@ class House:
     def act_gen(self,datetimes): #actual generation
         if type(datetimes)==str:
             datetimes=[datetimes]
-        #print(datetimes)
         act_gen_list=[self.gen_df.loc[self.gen_df['time'] == i].gen_Sol.values.flatten().tolist()[0] for i in datetimes]
         return act_gen_list
     def weather_list(self): #list of all the weather stuff
@@ -46,7 +42,6 @@ class House:
     def gen_sol(self): #returns pandas df
         return self.gen_df
     def update_battery(self):
-        #print(self.datetime)
         now=self.datetime
     def last_12(self,datetime,exception=False): #actual
         before_12_hr = (datetime - timedelta(hours=12)).strftime("%Y-%m-%d %H:%M:%S")[:-2]+'00'
@@ -70,13 +65,11 @@ class House:
         if exception:
             return mask_after
         return self.gen_df.loc[mask_after].time.values.tolist()
-        #self.battery+=self.act_gen(str(now))
         
     def last_24_effiencies(self,datetime):
         appliance_list=['Home office','Fridge','Wine cellar', 'Garage door','Microwave','Living room']
         app_df=self.use_df.drop(columns=['apparentTemperature','month','day','hour','use_HO'])
         app_df = app_df.loc[self.last_24(datetime,True)]
-        #print(app_df)
         app_df=app_df.drop(columns=['time'])
         value_list=[]
         for column in app_df:
@@ -107,7 +100,6 @@ class House:
         appliance_list=['Home office','Fridge','Wine cellar', 'Garage door','Microwave','Living room']
         app_df=self.use_df.drop(columns=['apparentTemperature','month','day','hour','use_HO'])
         app_df = app_df.loc[self.last_24(datetime,True)]
-        #print(app_df)
         app_df=app_df.drop(columns=['time'])
         value_list=[]
         for column in app_df:
@@ -139,10 +131,7 @@ class House:
             return mask_after
         times = self.use_df.loc[mask_after].time.values.tolist()
         return times
-
     
 house=House(0)
 now = dt.now().replace(microsecond=0).replace(second=0)
 bad_rec_dict,good_rec_dict,avg=house.last_24_effiencies(now)
-#print(house.last_24(dt.now()))
-#print(house.next_days(31,True))

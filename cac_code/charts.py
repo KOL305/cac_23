@@ -2,34 +2,24 @@ import plotly
 import plotly.express as px
 import plotly.graph_objs as go
 import pandas as pd
-#from app import app
+
 from charts_class import generate_line,generate_bar,generate_pie,generate_heatmap
 from datetime import datetime as dt, timedelta
 from home_class import house
 import random
-
 
 now = dt.now().replace(microsecond=0).replace(second=0)
 
 df_use=house.use_df
 df_gen=house.gen_df
 
-
-#line-chart (consumption, generation, battery 12 hrs bfr and 12 after)
 df_battery = pd.read_csv("cac_code/csv_data/battery_data.csv",)
 
-#df_battery["battery"]=df_battery["battery"].astype(float)
-# Creates Main Line Graph
 main_line_df = df_gen[["time", "gen_Sol"]]
 main_line_df=main_line_df.rename(columns={"time": "Time", "gen_Sol": "Energy Generation"})
 main_line_df["Energy Consumption"] = df_use["use_HO"]
 main_line_df["battery"] = df_battery["battery"]
-#print(main_line_df.info())
-#print(main_line_df)
-### Filters results to past 12 hours
-#(df_gen['time'] >= before_12_hr) & (df_gen['time'] <= now)
 step=10
-
 
 main_line_filter_df_ = main_line_df.loc[house.last_12(now,True)]
 main_line_filter_df_before=pd.DataFrame()
@@ -46,7 +36,6 @@ main_line_filter_df_before["Energy Generation"]=gen_list
 bat_list=main_line_filter_df_['battery']
 bat_list=[sum(bat_list[i:i + step]) for i in range(0, len(bat_list), step)]
 main_line_filter_df_before["battery"]=bat_list
-
 
 ### time_list for next 12 hours
 time_list=house.next_12()
@@ -71,6 +60,7 @@ df_after['Energy Consumption']=df_after['Energy Consumption'].astype(float)
 df_after = df_after.assign(battery = None)
 line_df=pd.concat([main_line_filter_df_before, df_after], axis=0)
 line_df=line_df.drop(columns=["battery"])
+
 ### Generates line graph with the parameters
 main_line = generate_line(line_df, 0, 1, None, 
                           "Energy Consumption, Generation, and Battery 12 Hours Before and After",
@@ -86,10 +76,8 @@ app_df=app_df.drop(columns=['time'])
 
 value_list=[]
 
-
 for column in app_df:
   value_list.append(app_df[column].sum())
-#print(value_list)
 d={
     'appliance':appliance_list,
     'values':value_list
@@ -128,21 +116,16 @@ for i in good_rec_dict:
 ## second optimization chart
 use_list=df_use[['time',"Home office","Fridge","Wine cellar","Garage door","Microwave","Living room"]]
 use_list=use_list.loc[house.last_12(now,True)]
-#(print(use_list)
 cons_over_time=generate_line(use_list,0,1,None,"Consumption Over Last Twelve Hours",
               ['#7DFB89','#7DFBD7','#7DE0FB','#7DA1FB','#987DFB','#D77DFB'],[0,0.15])
 
-
-
-
-##correleation heatmap
+##correlation heatmap
 df_corr=df_gen.drop(columns=['time'])
 df_matrix=df_corr.corr()
 colors=[[0,"rgba(125,251,137,255)"],[0.5,'white'],[1.0,"rgba(125,224,251,255)"]]
 corr_heatmap=generate_heatmap(df_matrix,colors)
 
 ## Predicted savings line
-print("hello")
 df_savings=df_use.loc[house.next_days(7,True)][["time","use_HO"]]
 df_savings["use_HO_save"] = df_savings["use_HO"]*0.92
 df_savings_sum=df_savings.loc[::60] # gets every hour
@@ -153,8 +136,3 @@ for time in df_savings_sum["time"]: # iterates through each hour and appends the
   df_savings_sum.loc[df_savings_sum["time"]==time,"use_HO_save"] = df_savings.loc[mask]["use_HO_save"].sum()
 
 compare_bar=generate_bar(df_savings_sum,0,1,None,"Predicted energy saved Comparison")
-
-### Code for bar graph over time of predicted energy saved
-# df_savings_dif = df_savings_sum[["time","use_HO"]]
-# df_savings_dif["use_HO"] = df_savings_sum["use_HO"]-df_savings_sum["use_HO_save"]
-# savings_bar=generate_bar(df_savings_dif,0,1,None,"Predicted energy saved")

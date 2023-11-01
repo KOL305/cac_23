@@ -43,7 +43,7 @@ def train_dataset(df):
         'min_child_samples': 5
     }
 
-    # laoding data
+    # loading data
     lgb_train = lgb.Dataset(X_train, y_train)
     lgb_eval = lgb.Dataset(X_test, y_test, reference=lgb_train)
 

@@ -6,8 +6,7 @@ df_gen=house.gen_df
 now=house.datetime.strftime("%Y-%m-%d %H:%M:%S")[:-2]+'00'
 now2 = dt.now().replace(microsecond=0).replace(second=0) # should be same as now
 last_hour = (house.datetime - timedelta(hours = 1)).strftime("%Y-%m-%d %H:%M:%S")[:-2]+'00'
-print('test')
-#print(df_use)
+
 datetimes=df_use.time.values.tolist()
 x=datetimes.index(now)
 y=x
@@ -18,13 +17,10 @@ while x < len(datetimes):
 y=datetimes.index(now)
 
 period=datetimes[x:y]
-#print(period)
 total_generated=0
 total_consumed=0
 battery_left=0
 generation_efficiency=0
-
-
 
 mask_before = (df_gen['time'] <= now)
 avg_list = df_gen.loc[mask_before].gen_Sol.values.tolist()
@@ -37,7 +33,6 @@ generation_efficiency=((house.act_gen(now)[0]/avg)*100)
 hour_avg=((total_consumed)/len(period))*60
 
 num_hours = len(period)/60
-print(num_hours)
 
 total_generated *= num_hours
 total_consumed *= num_hours
@@ -50,7 +45,6 @@ hour_avg=round(hour_avg, 3)
 
 ### Note: Same processing as in charts.py -- is there a way to make this more efficient?
 ## Predicted savings line
-print("hello")
 df_savings=df_use.loc[house.next_days(7,True)][["time","use_HO"]]
 df_savings["use_HO_save"] = df_savings["use_HO"]*random.uniform(0.88,0.94)
 df_savings_sum=df_savings.loc[::60] # gets every hour
@@ -94,8 +88,6 @@ def get_current_usages():
   for index, appliance in enumerate(appliance_list):
     today[appliance] = value_list[index]
     yesterday[appliance] = avg_list[index]
-  print(value_list)
-  print(avg_list)
   msg = "Percentage of energy usage by location in the format {Location: Percentage} for today is " + str(today) + ". Percentage of energy usage by location in the format {Location: Percentage} for yesterday is " + str(yesterday) + ". Do not repeat any advice that you have given me in the past."
 
   return msg
@@ -103,14 +95,3 @@ def get_current_usages():
   # {Home office: 25, Fridge: 33, Wine cellar: 17, Garage door: 9, Microwave: 5, Living room: 12}. 
   # Percentage of energy usage by location in the format {Location: Percentage} for yesterday is 
   # {Home office: 33, Fridge: 26, Wine cellar: 17, Garage door: 6, Microwave: 4, Living room: 14}.
-
-
-# finds the estimated money saved by user based on the energy saved
-
-# in the past, estimated energy usage vs what they actually used (should see it being under the line, how much energy that they have saved?)
-
-
-# for time in df_savings_sum["time"]: # iterates through each hour and appends the sum of usage to the df_savings_sum
-#   mask = house.next_hour(time,True)
-#   df_savings_sum.loc[df_savings_sum["time"]==time,"use_HO"] = df_savings.loc[mask]["use_HO"].sum()
-#   df_savings_sum.loc[df_savings_sum["time"]==time,"use_HO_save"] = df_savings.loc[mask]["use_HO_save"].sum()

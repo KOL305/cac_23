@@ -12,7 +12,6 @@ function removeOuterTags(string) {
 function processGraph(graph) {
     var graphDec = he.decode(graph);
 
-    console.log(graphDec);
     // removes the outer div tags
     var graphDecTrim = removeOuterTags(graphDec);
 
