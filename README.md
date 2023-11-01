@@ -37,4 +37,4 @@ How to install requirements:
 - Enter in terminal: pip install -r requirements.txt
 
 To run app:
-- Enter in terminal: (Windows) python app.py, (Mac) python3 app.py
+- Enter in terminal: (Windows) flask --app cac_code/app.py run, (Mac) flask --app cac_code/app.py run 
