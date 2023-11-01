@@ -14,6 +14,9 @@ from datetime import datetime, timedelta
 from app import app
 
 @app.route("/",methods=['GET','POST'])
+def landing():
+    return render_template("landing.html")
+
 @app.route("/dashboard",methods=['GET','POST'])
 def index():
     return render_template("index.html", 
