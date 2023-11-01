@@ -230,7 +230,6 @@
                 var loaded = ref(false);
 
                 function generateRec() {
-                  console.log("generating recs");
                   minusSlides();
                   plusSlides();
 
@@ -239,17 +238,14 @@
                     .then(function (response) {
                       items.value = response.data.items;
                       for (let i = 0; i < items.length; i++) {
-                        console.log(items[i]);
                         loaded.value = true;
                       }
                       minusSlides();
                       plusSlides();
                     })
                     .catch(function (error) {
-                      console.log(error);
                     });
                 }
-                console.log("grapefruit");
 
                 return { // the vars/functions that the DOM can access. Everything else Vue can interally access
                   items,

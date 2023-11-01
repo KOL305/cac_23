@@ -9,7 +9,6 @@ fig, axes = plt.subplots(nrows=4, ncols=1,figsize=(2,8))
 def ahh(monthday,df_use,df_gen):
     df_use["monthdate"]=[str(i[5:10]) for i in df_use.time.tolist()]
 
-
     df_use=df_use.loc[df_use['monthdate'] == monthday]
     df_use = df_use.reset_index(drop=True)
     use_list=[]
@@ -25,13 +24,7 @@ def ahh(monthday,df_use,df_gen):
     for i in range(len(use_list)):
         hour_list.append(i)
 
-
-
-
-
-
     df_gen["monthdate"]=[str(i[5:10]) for i in df_gen.time.tolist()]
-
 
     df_gen=df_gen.loc[df_gen['monthdate'] == monthday]
     df_gen = df_gen.reset_index(drop=True)
@@ -52,16 +45,11 @@ def ahh(monthday,df_use,df_gen):
 
 super_gen_list=[]
 super_use_list=[]
-#print(df_use['time'])
 thing = [i[5:10] for i in df_use['time']]
 from collections import OrderedDict
 thing = list(OrderedDict.fromkeys(thing))
 
-#print(thing)
 for i in thing:
-
-
-    #print(i)
     gen_list,use_list=ahh(i,df_use,df_gen)
     super_gen_list.append(gen_list)
     super_use_list.append(use_list)
@@ -82,11 +70,6 @@ for j in range(0, len(super_gen_list[0])):
 add_use_list = list(map(lambda x: x / len(super_use_list), add_use_list))
 add_gen_list = list(map(lambda x: x / len(super_gen_list), add_gen_list))
 
-
-
-
-
-
 hour_list=[]
 for i in range(len(add_gen_list)):
     hour_list.append(i)
@@ -99,10 +82,7 @@ axes[2].plot(x, y1, label="use")
 axes[2].plot(x, y2, label="gen")
 axes[2].set_title('averages')
 
-
-
 plt.legend()
-# Add a legend
 plt.show()
 
 
