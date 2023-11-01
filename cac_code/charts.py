@@ -65,7 +65,7 @@ line_df=line_df.drop(columns=["battery"])
 main_line = generate_line(line_df, 0, 1, None, 
                           "Energy Consumption, Generation, and Battery 12 Hours Before and After",
                           ["#7DA1FB","#7DFB89"],
-                          [0,0.2]
+                          [0,0.4]
                         )
 
 #pie chart (distribution of consumption by appliance last twelve hours)
