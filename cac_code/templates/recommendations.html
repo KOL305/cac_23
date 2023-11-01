@@ -144,7 +144,6 @@
 
         <script type="text/javascript">
             function convert_to_string(content){ // converts to a string, each line is connected by two \n
-                console.log(content);
                 var content_str = "";
                 for (let i = 0; i < content.length; i++){
                     content_str = content_str + content[i];
@@ -164,16 +163,9 @@
                     var roles = JSON.parse('{{roles|tojson|safe}}'); // Will return an array
                     var contents = he.decode(('{{contents|tojson|safe}}')) // Will return an array
                     // var contents = JSON.stringify(he.decode(('{{contents}}')));
-                    // console.log(contents);
                     contents = JSON.parse(contents);
-                    // console.log(contents);
 
                     function generateRec() {
-                        console.log("generating recs");
-                        console.log(roles);
-                        console.log(typeof(roles));
-                        console.log(contents);
-                        console.log(typeof(contents));
                         // POST REQUEST THINGS
                         //const axios = require('axios').default;
 
@@ -182,19 +174,12 @@
                             "contents": contents,
                         },{headers:{'Content-Type': 'application/json'}})
                             .then(function (response) {
-                                console.log(response.data);
                                 roles = response.data.roles;
                                 contents = response.data.contents;
                                 msg.value = convert_to_string(contents[contents.length-1]);
-                                console.log(msg.value);
                             })
                             .catch(function (error) {
-                                console.log(error);
                             });
-                    }
-                    function check(){
-                        console.log(roles);
-                        console.log(contents);
                     }
 
                     return { // the vars/functions that the DOM can access. Everything else Vue can interally access

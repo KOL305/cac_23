@@ -8,13 +8,9 @@ import numpy as np
 
 def generate_line(df, x_col, y_col_s, y_col_e, title,colors=None,y_range=None):
     if (y_col_e == None):
-        print("no end")
-        print(df.columns[y_col_s:])
         plotly_fig = px.line(df, x=df.columns[x_col], y=df.columns[y_col_s:], title=title,
                              color_discrete_sequence=colors)
     else:
-        print("end")
-        print(df.columns[y_col_s:y_col_e])
         plotly_fig = px.line(df, x=df.columns[x_col], y=df.columns[y_col_s:y_col_e], title=title,
                             color_discrete_sequence=colors)
     plotly_fig.update_traces(line=dict(width=2.2))
@@ -29,21 +25,15 @@ def generate_line(df, x_col, y_col_s, y_col_e, title,colors=None,y_range=None):
         yaxis_range=y_range
     )
     plotly_fig.update_xaxes(
-        #mirror=True,
         ticks='inside',
-        #showline=True,
-        #linecolor='black',
         gridcolor='#39353d'
     )  
     plotly_fig.update_yaxes(
-        #mirror=True,
         ticks='inside',
         showline=True,
         linecolor='white',
         gridcolor='#39353d'
     )
-    #plotly_fig.show()
-    
     div = plotly.offline.plot(plotly_fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
     return div
 
@@ -70,12 +60,9 @@ def generate_pie(df,colors = None):
                     title_font_color="white",
                     legend_title_font_color="white",
                     margin=dict(t=0.2, b=0.2, l=0.2, r=0.2))
-    
-    #fig.show()
     div = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
     return div
 def generate_bar(df, x_col, y_col_s, y_col_e, title, log=False):
-    #zeros = pd.DataFrame(0, index=np.arange(len(df)), columns="zero")["zero"]
     fig = px.bar(df, x=df.columns[x_col], y=df.columns[y_col_s:],
              labels={'pop':'population of Canada'},barmode="overlay",log_y=log)
     fig.update_layout(
@@ -84,19 +71,12 @@ def generate_bar(df, x_col, y_col_s, y_col_e, title, log=False):
         font_color="white",
         title_font_color="white",
         legend_title_font_color="white",
-        
-        
-        
     )
     fig.update_xaxes(
-        #mirror=True,
         ticks='inside',
-        #showline=True,
-        #linecolor='black',
         gridcolor='#39353d'
     )  
     fig.update_yaxes(
-        #mirror=True,
         ticks='inside',
         showline=True,
         linecolor='white',
@@ -105,7 +85,6 @@ def generate_bar(df, x_col, y_col_s, y_col_e, title, log=False):
     fig.update_traces(
         marker_line_width = 0,
     )
-    #fig.show()
     div = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
     return div
     
@@ -136,8 +115,6 @@ def generate_heatmap(df,colors=None):
                 title_font_color="white",
                 legend_title_font_color="white"
     )
-    
-    #fig.show()  
     div = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div', config={'displayModeBar': False})
     return div
 
