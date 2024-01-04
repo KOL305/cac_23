@@ -10,8 +10,6 @@ The app contains three pages: Dashboard, Optimization, and Comparison
 
 # How to deploy application
 
-# Task-Manager-With-Slimes
-
 Pre-requisites:
 - Git
 - Python 3.x
@@ -32,9 +30,11 @@ How to set up .env (in code editor):
 - Copy and paste the following into .env:
 
 OPENAI_API_KEY = <<add your OpenAI GPT API Key here>>
+#In order to view the GPT Recommendations, you will need your own OpenAI GPT API Key
 
 How to install requirements:
 - Enter in terminal: pip install -r requirements.txt
 
 To run app:
-- Enter in terminal: (Windows) flask --app cac_code/app.py run, (Mac) flask --app cac_code/app.py run 
+- Enter in terminal: flask --app cac_code/app.py run
+- Enter in terminal: (Windows) python app.py, (Mac) python3 app.py
