@@ -4,7 +4,8 @@ import random
 df_use=house.use_df
 df_gen=house.gen_df
 now=house.datetime.strftime("%Y-%m-%d %H:%M:%S")[:-2]+'00'
-now2 = dt.now().replace(microsecond=0).replace(second=0) # should be same as now
+now = "2023"+str(now[4:])
+now2 = (dt.now()-timedelta(days=365)).replace(microsecond=0).replace(second=0) # should be same as now
 last_hour = (house.datetime - timedelta(hours = 1)).strftime("%Y-%m-%d %H:%M:%S")[:-2]+'00'
 #print(df_use)
 datetimes=df_use.time.values.tolist()
@@ -112,7 +113,7 @@ est_trees = round(est_trees)
 est_lb_food = round(est_lb_food)
 
 def get_current_usages():
-  now2 = dt.now().replace(microsecond=0).replace(second=0) # should be same as now
+  now2 = (dt.now()-timedelta(days=365)).replace(microsecond=0).replace(second=0) # should be same as now
   appliance_list, value_list, avg_list = house.last_24_efficiencies(now2)
   today = {}
   yesterday = {}
